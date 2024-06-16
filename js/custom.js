@@ -1,55 +1,33 @@
 
-  $(function () {
-    'use strict'
+  (function ($) {
+  
+  "use strict";
 
     // MENU
-    $('.navbar .nav-link').on('click',function(){
-        $(".navbar-collapse").collapse('hide');
+    $('.navbar-collapse a').on('click',function(){
+      $(".navbar-collapse").collapse('hide');
     });
-
-    $(window).on('scroll', function() {     
-                                
-        /*----------------------------------------------------*/
-        /*  Navigtion Menu Scroll
-        /*----------------------------------------------------*/    
-        
-        var b = $(window).scrollTop();
-        
-        if( b > 72 ){       
-            $(".navbar").addClass("scroll");
-        } else {
-            $(".navbar").removeClass("scroll");
-        }               
+    
+    // CUSTOM LINK
+    $('.smoothscroll').click(function(){
+      var el = $(this).attr('href');
+      var elWrapped = $(el);
+      var header_height = $('.navbar').height();
+  
+      scrollToDiv(elWrapped,header_height);
+      return false;
+  
+      function scrollToDiv(element,navheight){
+        var offset = element.offset();
+        var offsetTop = offset.top;
+        var totalScroll = offsetTop-navheight;
+  
+        $('body,html').animate({
+        scrollTop: totalScroll
+        }, 300);
+      }
     });
+  
+  })(window.jQuery);
 
-    // TESTIMONIALS CAROUSEL
-    $('#testimonials-carousel').owlCarousel({
-        loop:true,
-        margin:10,
-        responsiveClass:true,
-        responsive:{
-            0:{
-                items:1,
-            },
-            900:{
-                items:2,
-            },
-            1200:{
-                items:3,
-                loop:false
-            }
-        }
-    })
 
-    // SMOOTHSCROLL
-    $(function() {
-      $('.navbar .nav-link').on('click', function(event) {
-        var $anchor = $(this);
-        $('html, body').stop().animate({
-            scrollTop: $($anchor.attr('href')).offset().top - 49
-        }, 1000);
-        event.preventDefault();
-      });
-    });   
-     
-  });
